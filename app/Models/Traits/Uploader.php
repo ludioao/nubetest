@@ -39,8 +39,6 @@ trait Uploader
             if (request()->hasFile($key)) {
                 $files = request()->file($key);
 
-                dd($files);
-
                 if (is_array($files)) {
                     foreach ($files as $file) {
                         $image = new SuperHeroImage();
