@@ -1,0 +1,12 @@
+FROM php:7.2-fpm
+
+RUN apt-get update
+RUN apt-get install -y curl libcurl3 libcurl3-dev libpng-dev libxml2-dev
+RUN apt-get install -y libmcrypt-dev mysql-client && docker-php-ext-install gd pdo_mysql zip soap
+RUN apt-get install -y zip unzip git
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+ENV PATH="~/.composer/vendor/bin:${PATH}"
+
+WORKDIR /var/www

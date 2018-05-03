@@ -1,0 +1,32 @@
+version: '2'
+services:
+    nubetest_nginx:
+        container_name: nubetest_nginx
+        image: nginx:1.10
+        ports:
+            - "8081:80"
+        volumes:
+            - .:/var/www
+            - ./site.conf:/etc/nginx/conf.d/site.conf
+        links:
+            - nubetest_php
+    nubetest_php:
+        container_name: nubetest_php
+        build:
+            context: ./
+            dockerfile: dockerfile-php.docker
+        volumes:
+            - .:/var/www
+        links:
+            - nubetest_mysql
+        environment:
+            - "DB_PORT=3306"
+            - "DB_HOST=nubetest_mysql"
+    nubetest_mysql:
+        container_name: nubetest_mysql
+        image: mysql:5.7
+        environment:
+            - "MYSQL_ROOT_PASSWORD=secret"
+            - "MYSQL_DATABASE=nubetest"
+        ports:
+            - "33062:3306"
